@@ -1,0 +1,16 @@
+name: Sincronizar datos con PythonAnywhere
+
+on:
+  schedule:
+    # 04:30 UTC = 06:30 en Madrid (horario de verano, UTC+2).
+    # En invierno (UTC+1) equivaldría a las 05:30 en Madrid.
+    - cron: "30 4 * * *"
+  workflow_dispatch: {}  # permite lanzarlo manualmente desde GitHub
+
+jobs:
+  sincronizar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Llamar al endpoint de sincronización
+        run: |
+          curl -sf "https://mbarrachina72.pythonanywhere.com/admin/sync-datos?token=${{ secrets.SYNC_TOKEN }}"
